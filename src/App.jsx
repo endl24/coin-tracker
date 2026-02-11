@@ -7,7 +7,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/coin/:id" element={<Detail />} />
+        <Route path="/coin/:id/*" element={<Detail />} />
       </Routes>
     </Router>
   );
