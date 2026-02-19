@@ -124,3 +124,11 @@
 .read-more-btn:hover {
   text-decoration: underline;
 }
+
+.nav-header {
+  display: flex;
+  justify-content: flex-start; /* 왼쪽으로 몰아서 배치 */
+  gap: 30px; /* 두 요소 사이의 간격을 30px 만큼 띄움 (원하는 수치로 조절 가능) */
+  align-items: center;
+  margin-bottom: 20px;
+}

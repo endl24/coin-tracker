@@ -4,9 +4,10 @@ import { useEffect, useState } from "react";
 import Chart from "../components/Chart";
 import Price from "../components/Price";
 import { Helmet } from "react-helmet-async";
+import { formatPrice } from "../utils";
 import "./Detail.css";
 
-function Detail() {
+function Detail({ isKrw, toggleCurrency }) {
   const { id } = useParams();
   const [loading, setLoading] = useState(true);
   const [coin, setCoin] = useState({});
@@ -29,7 +30,12 @@ function Detail() {
 
   return (
     <div className="container">
-      <Link to="/">Home으로 가기</Link>
+      <div className="nav-header">
+        <Link to="/">Home으로 가기</Link>
+        <button className="currency-toggle-btn" onClick={toggleCurrency}>
+          {isKrw ? "USD로 보기" : "KRW로 보기"}
+        </button>
+      </div>
       <Helmet>
         <title>
           {loading ? "Loading..." : `${coin.name} | Crypto Tracker`}
@@ -50,7 +56,7 @@ function Detail() {
             </div>
             <div className="overview-item">
               <span>Current Price</span>
-              <span>${coin.market_data?.current_price?.usd}</span>
+              <span>{formatPrice(coin.market_data?.current_price, isKrw)}</span>
             </div>
           </div>
           <div
@@ -68,12 +74,13 @@ function Detail() {
               {isReadMore ? "접기 ▲" : "더보기 ▼"}
             </button>
           )}
+
           <div className="overview">
             <div className="overview-item">
               <span>High price</span>
-              <span>${coin.market_data?.high_24h?.usd}</span>
+              <span>{formatPrice(coin.market_data?.high_24h, isKrw)}</span>
               <span>Low Price</span>
-              <span>${coin.market_data?.low_24h?.usd}</span>
+              <span>{formatPrice(coin.market_data?.low_24h, isKrw)}</span>
             </div>
           </div>
 
@@ -87,7 +94,7 @@ function Detail() {
           </div>
           <Routes>
             <Route path="chart" element={<Chart />} />
-            <Route path="price" element={<Price data={coin} />} />
+            <Route path="price" element={<Price data={coin} isKrw={isKrw} />} />
           </Routes>
         </div>
       )}

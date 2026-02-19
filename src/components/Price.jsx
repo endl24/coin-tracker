@@ -1,4 +1,6 @@
-function Price({ data }) {
+import { formatPrice } from "../utils";
+
+function Price({ data, isKrw }) {
   console.log(data);
 
   return (
@@ -8,18 +10,17 @@ function Price({ data }) {
         <>
           <div>
             <h3>역대 최고가 (ATH)</h3>
-            {/* CoinGecko는 ath.usd 이렇게 씁니다 */}
-            <span>${data.market_data.ath.usd}</span>
+            <span>{formatPrice(data.market_data?.ath, isKrw)}</span>
           </div>
 
           <div>
              <h3>현재 가격</h3>
-             <span>${data.market_data.current_price.usd}</span>
+             <span>{formatPrice(data.market_data?.current_price, isKrw)}</span>
           </div>
 
           <div>
              <h3>시가총액</h3>
-             <span>${data.market_data.market_cap.usd}</span>
+             <span>{formatPrice(data.market_data?.market_cap, isKrw)}</span>
           </div>
         </>
       ) : (
