@@ -1,10 +1,16 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import "./Home.css";
 
 function Home() {
   const [loading, setLoading] = useState(true);
   const [coins, setCoins] = useState([]);
+  const [keyword, setKeyword] = useState("");
+
+  const onChange = (event) => {
+    setKeyword(event.target.value);
+  };
 
   useEffect(() => {
     const getCoins = async () => {
@@ -20,19 +26,40 @@ function Home() {
   }, []);
   return (
     <div className="container">
+      <Helmet>
+        <title>All Coins | Crypto Tracker</title>
+      </Helmet>
       <h1 className="header">Coin ({coins.length})</h1>
-      
+      <div style={{ marginBottom: "20px", textAlign: "center" }}>
+        <input
+          type="text"
+          value={keyword}
+          onChange={onChange}
+          placeholder="Coin Search..."
+          style={{
+            padding: "10px 20px",
+            borderRadius: "10px",
+            border: "none",
+            width: "80%",
+            fontSize: "16px",
+          }}
+        />
+      </div>
       {loading ? (
         <strong className="loader">Loading...</strong>
       ) : (
         <ul className="coins-list">
-          {coins.map((coin) => (
-            <li key={coin.id} className="coin">
-              <Link to={`/coin/${coin.id}`}>
-                {coin.name} ({coin.symbol}) : ${coin.current_price}
-              </Link>
-            </li>
-          ))}
+          {coins
+            .filter((coin) =>
+              coin.name.toLowerCase().includes(keyword.toLowerCase()),
+            )
+            .map((coin) => (
+              <li key={coin.id} className="coin">
+                <Link to={`/coin/${coin.id}`}>
+                  {coin.name} ({coin.symbol}) : ${coin.current_price}
+                </Link>
+              </li>
+            ))}
         </ul>
       )}
     </div>
